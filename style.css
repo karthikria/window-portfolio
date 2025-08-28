@@ -453,7 +453,7 @@
       width: 100%;           /* each takes full width in mobile */
     }
   }
- /* Default popup style (Laptop/Desktop) */
+/* General Popup Window Style (Desktop) */
 .window {
   position: fixed;
   top: 50%;
@@ -471,7 +471,7 @@
   display: none; /* hidden until opened */
 }
 
-/* Header */
+/* Window Header */
 .window-header {
   display: flex;
   justify-content: space-between;
@@ -482,16 +482,22 @@
   font-weight: bold;
 }
 
-/* Mobile view */
+/* Window Content */
+.window-content {
+  padding: 20px;
+  font-size: 1rem;
+}
+
+/* ================= Mobile Fix ================= */
 @media (max-width: 768px) {
   .window {
     top: 0;
     left: 0;
-    transform: none;      /* Remove centering */
+    transform: none;      /* Remove center translate */
     width: 100%;          /* Full width */
-    height: 100%;         /* Full screen */
+    height: 100%;         /* Full screen height */
     border-radius: 0;     /* Remove rounded corners */
-    max-height: 100vh;    /* Fit screen */
+    max-height: 100vh;    /* Prevent overflow */
   }
 
   .window-header {
@@ -504,3 +510,4 @@
     font-size: 0.95rem;
   }
 }
+
