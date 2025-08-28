@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>PORTFOLIO</title>
+    <link  rel="icon" href="—Pngtree—silver eagle logo for gaming_6352572.png">
+</head>
+<body>
+
+  <div id="preloader">
+    <div class="logo-wrapper">
+      <img src="—Pngtree—silver eagle logo for gaming_6352572.png" alt="Logo" class="loader-logo">
+    </div>
+  </div>
+
+
+    
+    <div class="app">
+       <a href="https://github.com/karthikria" target="_blank"> <img class="icons app-icon" src="git.png" data-app="git" title="GitHub"></a>
+       <a href="https://www.instagram.com/ka_r_thik_ria/?next=%2F" target="_blank"> <img class="icons app-icon" src="insta1.png" data-app="instagram" title="Instagram"></a><br>
+    
+        <a href="https://www.linkedin.com/in/karthikria/" target="_blank"><img class="icons app-icon" src="linked.png" data-app="linkedin" title="LinkedIn"></a>
+       <a href="https://drive.google.com/drive/folders/1dqJJv91mKKqifJYZMT95atm6Ecjcmvrf?usp=sharing" target="_blank"><img class="icons app-icon" src="documents.png" data-app="documents" title="Documents"><br></a> 
+    
+        <img class="icons app-icon" src="icons8-project-48.png" data-app="project" title="Projects">
+       <a href="karthikria resume.pdf" target="_blank"><img class="icons app-icon" src="resume.png" data-app="resume" title="Resume"></a> <br>
+    
+       <a href="https://open.spotify.com/playlist/0LfSr53RRY4hPYrcZfhlor?si=EWuOfug6RSiiQRWKlIGcRw&nd=1&utm_medium=organic&product=open&%24full_url=https%3A%2F%2Fopen.spotify.com%2Fplaylist%2F0LfSr53RRY4hPYrcZfhlor%3Fsi%3DEWuOfug6RSiiQRWKlIGcRw%26pt%3D03d6d92725ee4b38a84cfc4df6702bef&feature=organic&_branch_match_id=1317065678449128130&_branch_referrer=H4sIAAAAAAAAA82OzUoDMRzEnyZ73F2TdFuFRUStiIKaHkp7Kdl8bELTJPyTUHrx2U0F30GYwzC%2FGRiTc0x3XZdiyFZfWh5j66w%2FdvcRgiwijyEq3yBMdXHuUMCN5jpB5AHhddUVt39rEU41io5fnE252v5db2BBGNtR87kDsdfGBUBknSwiT8%2Fb8qHLPLCNtV9s%2B%2BZeXwQ7IzzEXGlP5CBv8RIvlKITWfEVFVpQqYdljyelf09x5yYujv%2FqWO15WXs3jVY8F1BjgJl7K5pvUFoBWD8fJgjnpGB8NBBO6geSwFtzhwEAAA%3D%3D&pt_success=1" target="_blank"> <img class="icons app-icon" src="spotify.png" data-app="spotify" title="Spotify"></a>
+        <img class="icons app-icon"  onclick="openPlaylist()" src="you.png" data-app="youtube" title="YouTube">
+    </div>
+   
+    <div class="container">
+        <nav>
+            <div class="taskbar">
+         
+            <ul>
+                <li><img src="home.png" class="app-icon" data-app="home" width="35"></li>
+                <li><img src="icons8-project-48.png" class="app-icon" data-app="project" width="35"></li>
+                <li><a href="https://mail.google.com/mail/?view=cm&fs=1&to=s.karthikria@gmail.com" target="_blank"><img src="mail.png" class="app-icon" width="35"></a></li>
+            
+            </ul>
+        </div>
+        <div class="weather-box" id="weather"></div>
+         <div class="clock-box">
+                <span id="time"></span><br>
+                <span id="date"></span>
+        </div>
+        </nav>
+    </div>
+   
+   
+<!-- App Windows -->
+<div class="window" id="homeWindow">
+  <div class="window-header">
+    <span>Home</span>
+    <span class="close-btn" onclick="closeWindow('homeWindow')">X</span>
+  </div>
+  <div class="window-content home-content">
+   
+    <div class="profile-section">
+      <img src="photo.JPG" alt="My Photo" class="profile-pic">
+      <h2>Karthik S</h2>
+      <p class="role">Full-Stack Developer | AI Enthusiast</p>
+      <p class="bio">
+        Passionate about building web apps, exploring deep learning, and creating smart solutions. 
+        Experienced in Python, Java, C, HTML/CSS, JavaScript, React, and Data Science.
+      </p>
+      <ul class="contact-info">
+        <li>📧 <a href="https://mail.google.com/mail/?view=cm&fs=1&to=s.karthikria@gmail.com">s.karthikria@gmail.com</a></li>
+        <li>🔗 <a href="https://www.linkedin.com/in/karthikria/" target="_blank">LinkedIn</a></li>
+        <li>💻 <a href="https://github.com/karthikria" target="_blank">GitHub</a></li>
+        <li>💻 <a href="https://karthikria.netlify.app" target="_blank">my portfolio</a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+</div>
+<h2></h2>
+<div class="window" id="projectWindow">
+  <div class="window-header">
+    <span>My Projects</span>
+    <span class="close-btn" onclick="closeWindow('projectWindow')">X</span>
+  </div>
+  <div class="window-content">
+    <div class="projects-container">
+      <div class="project-card">
+        <img src="chat.png" alt="DateChatAI">
+        <a href="https://github.com/karthikria/chatapp"><h4> Chat Application</h4></a>
+        <p>communication</p>
+      </div>
+      <div class="project-card">
+        <img src="location.png" alt="ProAnimals">
+        <a href="https://github.com/karthikria/ebus-management-system"><h4>Ebus Management System</h4></a>
+        <p>track the current location</p>
+      </div>
+     
+        <div class="project-card">
+        <img src="recipe.jpg" alt="resipe">
+        <a href="https://github.com/karthikria/recipe-book">  <h4>Recipe Book</h4></a>
+          <p>Add recipe and search recipe</p>
+    </div>
+    <div class="project-card">
+      <img src="data.jpg" >
+      <a href="https://github.com/karthikria/Ebpl-DS-Enhancing-road-safety-with-AI-driven-traffic-accident-analysis-and-prediction">  <h4>Enhancing-road-safety-with-AI-driven-traffic-accident-analysis-and-prediction</h4></a>
+        <p>datascience</p>
+  </div>
+
+  <div class="project-card">
+    <img src="search.png" >
+    <a href="https://github.com/karthikria/recipe-book">  <h4>Recipe Book</h4></a>
+      <p>Add recipe and search recipe</p>
+</div>
+
+<div class="project-card">
+  <img src="catering.jpg" >
+  <a href="https://github.com/karthikria/catering-reservation-and-ordering-system1">  <h4>catering-reservation-and-ordering-system</h4></a>
+    <p>catering system</p>
+</div>
+
+<div class="project-card">
+  <img src="booking.png" >
+  <a href="https://github.com/karthikria/student-teacher-appointment-booking">  <h4>student-teacher-appointment-booking</h4></a>
+    <p>student can book appointment with teacher </p>
+</div>
+</div>
+
+
+
+  
+  
+  
+
+
+<script src="script.js"></script>
+</body>
+</html>

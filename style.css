@@ -1,0 +1,456 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Segoe UI, sans-serif;
+  }
+
+  body {
+    margin: 0;
+    padding: 0;
+    background: url("wallpaper.png") no-repeat center center;
+    background-size: cover;            /* makes it stretch properly */
+    background-attachment: fixed;      /* nice effect on desktop */
+    min-height: 100vh;
+  }
+
+  .icons {
+    width: 70px;
+    padding: 5px;
+    cursor: pointer;
+  }
+
+  .icons:hover {
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 8px;
+  }
+
+  /* Taskbar */
+  .container {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 50px;
+    background: rgba(40, 40, 40, 0.6);
+    backdrop-filter: blur(10px);
+    display: flex;
+    align-items: center;   /* centers vertically */
+    justify-content: space-between; /* pushes left items & right clock */
+    padding: 0 20px;
+  }
+/* Navigation inside */
+.container nav {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    justify-content: space-between; /* left (weather + icons) / right (clock) */
+  }
+  
+  /* Left side (weather + icons) */
+  nav ul {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  /* Clock */
+  .clock-box {
+    margin-left: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    line-height: 1.2;
+    color: white;
+    font-size: 13px;
+  }
+
+  #time {
+    font-weight: bold;
+  }
+
+  #date {
+    font-size: 12px;
+  }
+  .taskbar {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%); /* centers horizontally */
+    display: flex;
+    align-items: center;
+    gap: 20px; /* spacing between icons */
+  }
+  .weather-box{
+    font-size: 13px;
+    font-weight: 500;
+    color: white;
+  }
+  /* Window */
+  .window {
+    display: none; /* hidden by default */
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 50%;
+    height: 50%;
+    max-width: 600px;
+    background: #1e1e1e;
+    border-radius: 10px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.5);
+    z-index: 1000;
+    flex-direction: column;
+    overflow: hidden;
+    resize: both;              /* built-in CSS resize */
+    overflow: auto;            /* prevent content cut-off */
+    min-width: 250px;
+    min-height: 150px;
+    max-width: 95%;
+    max-height: 90%;
+
+  }
+  
+  .window-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 15px;
+    background: #2a2a2a;
+    color: white;
+    font-weight: bold;
+  }
+  
+  .window-content {
+    padding: 15px;
+  }
+  
+  .projects-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: center;
+  }
+  
+  .project-card {
+    background: #2e2e2e;
+    border-radius: 8px;
+    padding: 10px;
+    width: 200px;
+    text-align: center;
+    cursor: pointer;
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+  
+  .project-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+  }
+  
+  .project-card img {
+    width: 100%;
+    height: auto;
+    border-radius: 5px;
+  }
+  
+  .project-card h4 {
+    margin: 8px 0 4px 0;
+    color: white;
+  }
+  
+  .project-card p {
+    margin: 0;
+    font-size: 0.9em;
+    color: #aaa;
+  }
+  
+  /* Responsive */
+  @media (max-width: 600px) {
+    .projects-container {
+      flex-direction: column;
+      align-items: center;
+    }
+    .project-card {
+      width: 80%;
+    }
+  }
+
+
+  #playlistContainer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    padding: 20px;
+  }
+
+  .playlist-card {
+    background: #333;
+    padding: 10px;
+    border-radius: 8px;
+    width: 200px;
+    text-align: center;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+    transition: transform 0.2s;
+    display: none;
+  }
+  .playlist-card:hover {
+    transform: scale(1.05);
+    cursor: pointer;
+  }
+
+  .playlist-card img {
+    width: 100%;
+    border-radius: 6px;
+  }
+
+  .playlist-card p {
+    margin: 10px 0;
+    font-size: 14px;
+  }
+
+  .playlist-card button {
+    padding: 6px 12px;
+    border: none;
+    border-radius: 4px;
+    background: crimson;
+    color: #fff;
+    cursor: pointer;
+  }
+
+
+  #preloader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #0d1117;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+    transition: opacity 1s ease, visibility 1s ease;
+  }
+
+  #preloader.hide {
+    opacity: 0;
+    visibility: hidden;
+  }
+
+  /* === Logo container with smudge glow === */
+  .logo-wrapper {
+    position: relative;
+    display: inline-block;
+  }
+
+  .logo-wrapper::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 220px;
+    height: 220px;
+    transform: translate(-50%, -50%);
+   
+    filter: blur(50px);
+    border-radius: 50%;
+    animation: glowPulse 4s ease-in-out infinite;
+    z-index: -1;
+  }
+
+  @keyframes glowPulse {
+    0%, 100% {
+      opacity: 0.6;
+      transform: translate(-50%, -50%) scale(1);
+    }
+    50% {
+      opacity: 0.9;
+      transform: translate(-50%, -50%) scale(1.2);
+    }
+  }
+
+  /* === Logo Animation === */
+  .loader-logo {
+    width: 140px;
+    height: auto;
+    opacity: 0;
+    filter: drop-shadow(2px 2px 20px yellow);
+    transform: scale(0.9);
+    animation: logoPulse 2s ease forwards;
+  }
+
+  @keyframes logoPulse {
+    0% {
+      opacity: 0;
+      transform: scale(0.8);
+    }
+    50% {
+      opacity: 1;
+      transform: scale(1.05);
+    }
+    100% {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  
+  #homeWindow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: none;
+    flex-direction: column;
+    width: 60%;
+    max-width: 90%;
+    max-height: 90%;
+    border-radius: 12px;
+    overflow-y: auto;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+  
+    /* Flowing rainbow gradient background */
+    background: linear-gradient(
+      -45deg,
+      #ff6b6b,
+      #feca57,
+      #48dbfb,
+      #1dd1a1,
+      #5f27cd,
+      #ff9ff3,
+      #00d2d3,
+      #c8d6e5
+    );
+    background-size: 600% 600%;
+    animation: flowingGradient 20s ease infinite;
+    color: white;
+  }
+  
+  /* Gradient animation */
+  @keyframes flowingGradient {
+    0%   { background-position: 0% 50%; }
+    25%  { background-position: 100% 50%; }
+    50%  { background-position: 100% 100%; }
+    75%  { background-position: 0% 100%; }
+    100% { background-position: 0% 50%; }
+  }
+  
+  /* Inside content */
+  .home-content {
+    padding: 20px;
+    text-align: center;
+  }
+  
+  .profile-pic {
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    object-fit: cover;
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+  }
+  .profile-pic:hover {
+    transform: translateY(-10px) rotate(-3deg);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+  }
+  .role {
+    font-size: 1.1em;
+    margin-bottom: 10px;
+  }
+  
+  .bio {
+    max-width: 500px;
+    margin: 10px auto 20px;
+    font-size: 0.95em;
+    line-height: 1.5;
+  }
+  
+  .contact-info {
+    list-style: none;
+    padding: 0;
+  }
+  .contact-info li {
+    margin: 5px 0;
+  }
+  .contact-info a {
+    color: #fff;
+    font-weight: bold;
+    text-decoration: none;
+  }
+  .contact-info a:hover {
+    text-decoration: underline;
+  }
+  
+  .window {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 600px;
+    max-width: 90vw;    /* shrink on smaller screens */
+    max-height: 90vh;   /* don’t overflow */
+    background: rgba(0,0,0,0.7);
+    border-radius: 12px;
+    overflow: auto;
+    display: none;
+    flex-direction: column;
+    color: white;
+  }
+  
+  /* Mobile view */
+  @media (max-width: 768px) {
+    .window {
+      width: 95vw;         /* full width */
+      height: auto;        /* adjust height */
+      max-height: 90vh;
+      top: 5%;
+      left: 50%;
+      transform: translateX(-50%);
+      border-radius: 8px;
+    }
+  
+    .window-content {
+      padding: 15px;
+      font-size: 0.9em;
+    }
+  
+    .profile-pic {
+      width: 90px;
+      height: 90px;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    body {
+      background-attachment: scroll;   /* avoid crop/zoom issues */
+      background-size: cover;
+    }
+  }
+  @media (max-width: 768px) {
+    .taskbar {
+      flex-wrap: wrap;       /* allow items to go to next line */
+      font-size: 12px;       /* shrink font size */
+      padding: 4px 8px;
+      text-align: center;
+    }
+  
+    .taskbar ul {
+      flex-wrap: wrap;       /* wrap icons */
+      justify-content: center;
+      gap: 6px;
+    }
+  
+    .taskbar li img {
+      width: 28px;           /* smaller icons */
+      height: 28px;
+    }
+  
+    .clock-box, .weather-box {
+      font-size: 12px;
+      margin-top: 5px;       /* avoid overlap */
+      text-align: center;
+      width: 100%;           /* each takes full width in mobile */
+    }
+  }
+  
