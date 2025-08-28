@@ -453,14 +453,54 @@
       width: 100%;           /* each takes full width in mobile */
     }
   }
-  @media (max-width: 768px) {
-    .window {
-      width: 95%;
-      height: auto;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      border-radius: 10px;
-    }
+ /* Default popup style (Laptop/Desktop) */
+.window {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(0,0,0,0.85);
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+  color: #fff;
+  z-index: 1000;
+  width: 600px;
+  max-width: 90%;
+  max-height: 90vh;
+  overflow-y: auto;
+  display: none; /* hidden until opened */
+}
+
+/* Header */
+.window-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px;
+  background: rgba(255,255,255,0.1);
+  border-bottom: 1px solid rgba(255,255,255,0.2);
+  font-weight: bold;
+}
+
+/* Mobile view */
+@media (max-width: 768px) {
+  .window {
+    top: 0;
+    left: 0;
+    transform: none;      /* Remove centering */
+    width: 100%;          /* Full width */
+    height: 100%;         /* Full screen */
+    border-radius: 0;     /* Remove rounded corners */
+    max-height: 100vh;    /* Fit screen */
   }
-  
+
+  .window-header {
+    font-size: 1.1rem;
+    padding: 15px;
+  }
+
+  .window-content {
+    padding: 15px;
+    font-size: 0.95rem;
+  }
+}
