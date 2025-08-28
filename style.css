@@ -453,4 +453,14 @@
       width: 100%;           /* each takes full width in mobile */
     }
   }
+  @media (max-width: 768px) {
+    .window {
+      width: 95%;
+      height: auto;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      border-radius: 10px;
+    }
+  }
   
