@@ -713,5 +713,4 @@ function updateDesktopWidget() {
 updateDesktopWidget();
 
 setInterval(updateDesktopWidget, 1000);
-=======
->>>>>>> 9e62f7fab186d8ccda42944429dbaa4f1410ed22
+
