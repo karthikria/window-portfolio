@@ -138,7 +138,7 @@ window.addEventListener("load", () => {
   setTimeout(() => {
     preloader.classList.add("hide");
     if (content) content.style.display = "block";
-  }, 2500);
+  }, 1000);
 });
 
 // ================== YOUTUBE PLAYLIST ==================
