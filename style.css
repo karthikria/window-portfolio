@@ -1,0 +1,1661 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Segoe UI, sans-serif;
+  }
+
+  body {
+    margin: 0;
+    padding: 0;
+    background: url("wallpaper.png") no-repeat center center;
+    background-size: cover;            /* makes it stretch properly */
+    background-attachment: fixed;      /* nice effect on desktop */
+    min-height: 100vh;
+  }
+
+  .icons {
+    width: 70px;
+    padding: 5px;
+    cursor: pointer;
+  }
+
+  .icons:hover {
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 8px;
+  }
+
+  /* Taskbar */
+  .container {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 50px;
+    background: rgba(40, 40, 40, 0.6);
+    backdrop-filter: blur(10px);
+    display: flex;
+    align-items: center;   /* centers vertically */
+    justify-content: space-between; /* pushes left items & right clock */
+    padding: 0 20px;
+  }
+/* Navigation inside */
+.container nav {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    justify-content: space-between; /* left (weather + icons) / right (clock) */
+  }
+  
+  /* Left side (weather + icons) */
+  nav ul {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  /* Clock */
+  .clock-box {
+    margin-left: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    line-height: 1.2;
+    color: white;
+    font-size: 13px;
+  }
+
+  #time {
+    font-weight: bold;
+  }
+
+  #date {
+    font-size: 12px;
+  }
+  .taskbar {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%); /* centers horizontally */
+    display: flex;
+    align-items: center;
+    gap: 20px; /* spacing between icons */
+  }
+  .weather-box{
+    font-size: 13px;
+    font-weight: 500;
+    color: white;
+  }
+  /* Window */
+  .window {
+    display: none; /* hidden by default */
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 50%;
+    height: 50%;
+    max-width: 600px;
+    background: #1e1e1e;
+    border-radius: 10px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.5);
+    z-index: 1000;
+    flex-direction: column;
+    overflow: hidden;
+    resize: both;              /* built-in CSS resize */
+    overflow: auto;            /* prevent content cut-off */
+    min-width: 250px;
+    min-height: 150px;
+    max-width: 95%;
+    max-height: 90%;
+
+  }
+  
+  .window-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 15px;
+    background: #2a2a2a;
+    color: white;
+    font-weight: bold;
+  }
+  
+  .window-content {
+    padding: 15px;
+  }
+  
+  .projects-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: center;
+  }
+  
+  .project-card {
+    background: #2e2e2e;
+    border-radius: 8px;
+    padding: 10px;
+    width: 200px;
+    text-align: center;
+    cursor: pointer;
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+  
+  .project-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+  }
+  
+  .project-card img {
+    width: 100%;
+    height: auto;
+    border-radius: 5px;
+  }
+  
+  .project-card h4 {
+    margin: 8px 0 4px 0;
+    color: white;
+  }
+  
+  .project-card p {
+    margin: 0;
+    font-size: 0.9em;
+    color: #aaa;
+  }
+  
+  /* Responsive */
+  @media (max-width: 600px) {
+    .projects-container {
+      flex-direction: column;
+      align-items: center;
+    }
+    .project-card {
+      width: 80%;
+    }
+  }
+
+
+  #playlistContainer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    padding: 20px;
+  }
+
+  .playlist-card {
+    background: #333;
+    padding: 10px;
+    border-radius: 8px;
+    width: 200px;
+    text-align: center;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+    transition: transform 0.2s;
+    display: none;
+  }
+  .playlist-card:hover {
+    transform: scale(1.05);
+    cursor: pointer;
+  }
+
+  .playlist-card img {
+    width: 100%;
+    border-radius: 6px;
+  }
+
+  .playlist-card p {
+    margin: 10px 0;
+    font-size: 14px;
+  }
+
+  .playlist-card button {
+    padding: 6px 12px;
+    border: none;
+    border-radius: 4px;
+    background: crimson;
+    color: #fff;
+    cursor: pointer;
+  }
+
+
+  #preloader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #0d1117;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+    transition: opacity 1s ease, visibility 1s ease;
+  }
+
+  #preloader.hide {
+    opacity: 0;
+    visibility: hidden;
+  }
+
+  /* === Logo container with smudge glow === */
+  .logo-wrapper {
+    position: relative;
+    display: inline-block;
+  }
+
+  .logo-wrapper::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 220px;
+    height: 220px;
+    transform: translate(-50%, -50%);
+   
+    filter: blur(50px);
+    border-radius: 50%;
+    animation: glowPulse 4s ease-in-out infinite;
+    z-index: -1;
+  }
+
+  @keyframes glowPulse {
+    0%, 100% {
+      opacity: 0.6;
+      transform: translate(-50%, -50%) scale(1);
+    }
+    50% {
+      opacity: 0.9;
+      transform: translate(-50%, -50%) scale(1.2);
+    }
+  }
+
+  /* === Logo Animation === */
+  .loader-logo {
+    width: 140px;
+    height: auto;
+    opacity: 0;
+    filter: drop-shadow(2px 2px 20px yellow);
+    transform: scale(0.9);
+    animation: logoPulse 2s ease forwards;
+  }
+
+  @keyframes logoPulse {
+    0% {
+      opacity: 0;
+      transform: scale(0.8);
+    }
+    50% {
+      opacity: 1;
+      transform: scale(1.05);
+    }
+    100% {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  
+  #homeWindow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: none;
+    flex-direction: column;
+    width: 60%;
+    max-width: 90%;
+    max-height: 90%;
+    border-radius: 12px;
+    overflow-y: auto;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+  
+    /* Flowing rainbow gradient background */
+    background: linear-gradient(
+      -45deg,
+      #ff6b6b,
+      #feca57,
+      #48dbfb,
+      #1dd1a1,
+      #5f27cd,
+      #ff9ff3,
+      #00d2d3,
+      #c8d6e5
+    );
+    background-size: 600% 600%;
+    animation: flowingGradient 20s ease infinite;
+    color: white;
+  }
+  
+  /* Gradient animation */
+  @keyframes flowingGradient {
+    0%   { background-position: 0% 50%; }
+    25%  { background-position: 100% 50%; }
+    50%  { background-position: 100% 100%; }
+    75%  { background-position: 0% 100%; }
+    100% { background-position: 0% 50%; }
+  }
+  
+  /* Inside content */
+  .home-content {
+    padding: 20px;
+    text-align: center;
+  }
+  
+  .profile-pic {
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    object-fit: cover;
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+  }
+  .profile-pic:hover {
+    transform: translateY(-10px) rotate(-3deg);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+  }
+  .role {
+    font-size: 1.1em;
+    margin-bottom: 10px;
+  }
+  
+  .bio {
+    max-width: 500px;
+    margin: 10px auto 20px;
+    font-size: 0.95em;
+    line-height: 1.5;
+  }
+  
+  .contact-info {
+    list-style: none;
+    padding: 0;
+  }
+  .contact-info li {
+    margin: 5px 0;
+  }
+  .contact-info a {
+    color: #fff;
+    font-weight: bold;
+    text-decoration: none;
+  }
+  .contact-info a:hover {
+    text-decoration: underline;
+  }
+  
+  .window {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 600px;
+    max-width: 90vw;    /* shrink on smaller screens */
+    max-height: 90vh;   /* don’t overflow */
+    background: rgba(0,0,0,0.7);
+    border-radius: 12px;
+    overflow: auto;
+    display: none;
+    flex-direction: column;
+    color: white;
+  }
+  
+  /* Mobile view */
+  @media (max-width: 768px) {
+    .window {
+      width: 95vw;         /* full width */
+      height: auto;        /* adjust height */
+      max-height: 90vh;
+      top: 5%;
+      left: 50%;
+      transform: translateX(-50%);
+      border-radius: 8px;
+    }
+  
+    .window-content {
+      padding: 15px;
+      font-size: 0.9em;
+    }
+  
+    .profile-pic {
+      width: 90px;
+      height: 90px;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    body {
+      background-attachment: scroll;   /* avoid crop/zoom issues */
+      background-size: cover;
+    }
+  }
+  @media (max-width: 768px) {
+    .taskbar {
+      flex-wrap: wrap;       /* allow items to go to next line */
+      font-size: 12px;       /* shrink font size */
+      padding: 4px 8px;
+      text-align: center;
+    }
+  
+    .taskbar ul {
+      flex-wrap: wrap;       /* wrap icons */
+      justify-content: center;
+      gap: 6px;
+    }
+  
+    .taskbar li img {
+      width: 28px;           /* smaller icons */
+      height: 28px;
+    }
+  
+    .clock-box, .weather-box {
+      font-size: 12px;
+      margin-top: 5px;       /* avoid overlap */
+      text-align: center;
+      width: 100%;           /* each takes full width in mobile */
+    }
+  }
+/* General Popup Window Style (Desktop) */
+.window {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(0,0,0,0.85);
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+  color: #fff;
+  z-index: 1000;
+  width: 600px;
+  max-width: 90%;
+  max-height: 90vh;
+  overflow-y: auto;
+  display: none; /* hidden until opened */
+}
+
+/* Window Header */
+.window-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px;
+  background: rgba(255,255,255,0.1);
+  border-bottom: 1px solid rgba(255,255,255,0.2);
+  font-weight: bold;
+}
+
+/* Window Content */
+.window-content {
+  padding: 20px;
+  font-size: 1rem;
+}
+
+/* ================= Mobile Fix ================= */
+@media (max-width: 768px) {
+  .window {
+    top: 0;
+    left: 0;
+    transform: none;      /* Remove center translate */
+    width: 100%;          /* Full width */
+    height: 100%;         /* Full screen height */
+    border-radius: 0;     /* Remove rounded corners */
+    max-height: 100vh;    /* Prevent overflow */
+  }
+
+  .window-header {
+    font-size: 1.1rem;
+    padding: 15px;
+  }
+
+  .window-content {
+    padding: 15px;
+    font-size: 0.95rem;
+  }
+}
+
+
+/* =========================================================
+   PROFESSIONAL POLISH LAYER
+   Appended overrides only: existing HTML and JavaScript logic
+   remain unchanged. Original Windows desktop concept preserved.
+   ========================================================= */
+
+:root {
+  --portfolio-glass: rgba(20, 24, 32, 0.76);
+  --portfolio-glass-strong: rgba(18, 21, 28, 0.92);
+  --portfolio-border: rgba(255, 255, 255, 0.16);
+  --portfolio-text: #f7f9fc;
+  --portfolio-muted: rgba(238, 242, 248, 0.72);
+  --portfolio-accent: #8ec5ff;
+  --portfolio-shadow: 0 24px 70px rgba(0, 0, 0, 0.38);
+}
+
+html {
+  color-scheme: dark;
+  scroll-behavior: smooth;
+}
+
+body {
+  color: var(--portfolio-text);
+  background-color: #10151d;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Desktop icons */
+.icons {
+  width: 66px;
+  padding: 8px;
+  border: 1px solid transparent;
+  border-radius: 12px;
+  transition: background-color 180ms ease, border-color 180ms ease,
+    transform 180ms ease;
+}
+
+.icons:hover {
+  background: rgba(255, 255, 255, 0.14);
+  border-color: rgba(255, 255, 255, 0.13);
+  transform: translateY(-2px);
+}
+
+.app a {
+  display: inline-block;
+  border-radius: 12px;
+}
+
+/* Windows 11-inspired taskbar */
+.container {
+  height: 64px;
+  padding: 0 22px;
+  background: rgba(18, 22, 29, 0.72);
+  border-top: 1px solid rgba(255, 255, 255, 0.18);
+  backdrop-filter: blur(24px) saturate(145%);
+  -webkit-backdrop-filter: blur(24px) saturate(145%);
+  box-shadow: 0 -10px 35px rgba(0, 0, 0, 0.16);
+  z-index: 1500;
+}
+
+.container nav {
+  gap: 18px;
+}
+
+nav ul {
+  gap: 12px;
+}
+
+.taskbar {
+  gap: 14px;
+}
+
+.taskbar .app-icon {
+  width: 38px;
+  height: 38px;
+  object-fit: contain;
+  padding: 5px;
+  border-radius: 10px;
+  transition: background-color 180ms ease, transform 180ms ease;
+}
+
+.taskbar .app-icon:hover {
+  background: rgba(255, 255, 255, 0.15);
+  transform: translateY(-2px);
+}
+
+.weather-box {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 12px;
+  letter-spacing: 0.01em;
+}
+
+.clock-box {
+  color: #fff;
+  font-size: 12px;
+  line-height: 1.45;
+  min-width: 92px;
+}
+
+#time {
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+#date {
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 11px;
+}
+
+/* Shared popup windows */
+.window {
+  width: min(680px, 92vw);
+  max-width: 92vw;
+  max-height: min(86vh, 850px);
+  background: var(--portfolio-glass-strong);
+  border: 1px solid var(--portfolio-border);
+  border-radius: 16px;
+  box-shadow: var(--portfolio-shadow);
+  color: var(--portfolio-text);
+  overflow: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.25) transparent;
+  backdrop-filter: blur(28px) saturate(135%);
+  -webkit-backdrop-filter: blur(28px) saturate(135%);
+}
+
+.window-header {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  min-height: 48px;
+  padding: 12px 16px;
+  background: rgba(255, 255, 255, 0.075);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  color: #fff;
+  font-size: 14px;
+  letter-spacing: 0.015em;
+}
+
+.close-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  color: rgba(255, 255, 255, 0.86);
+  cursor: pointer;
+  transition: background-color 160ms ease, color 160ms ease;
+}
+
+.close-btn:hover {
+  background: #d94b55;
+  color: #fff;
+}
+
+.window-content {
+  padding: 22px;
+  font-size: 14px;
+  line-height: 1.65;
+}
+
+/* Profile window */
+#homeWindow {
+  width: min(700px, 92vw);
+  background: linear-gradient(
+    145deg,
+    rgba(27, 36, 50, 0.94),
+    rgba(20, 25, 34, 0.94)
+  );
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  animation: portfolioWindowIn 220ms ease-out both;
+}
+
+.home-content {
+  padding: 30px 26px;
+}
+
+.profile-pic {
+  width: 124px;
+  height: 124px;
+  border: 3px solid rgba(255, 255, 255, 0.82);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.34);
+}
+
+.profile-section h2 {
+  margin-top: 16px;
+  margin-bottom: 6px;
+  font-size: clamp(24px, 3vw, 32px);
+  font-weight: 700;
+  letter-spacing: -0.035em;
+}
+
+.role {
+  margin-bottom: 14px;
+  color: var(--portfolio-accent);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.bio {
+  max-width: 520px;
+  margin: 14px auto 22px;
+  color: var(--portfolio-muted);
+  font-size: 14px;
+  line-height: 1.8;
+}
+
+.contact-info {
+  display: grid;
+  gap: 8px;
+  max-width: 460px;
+  margin: 0 auto;
+  text-align: left;
+}
+
+.contact-info li {
+  margin: 0;
+  padding: 10px 12px;
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.045);
+  overflow-wrap: anywhere;
+}
+
+.contact-info a {
+  color: #d8eaff;
+  font-weight: 500;
+  transition: color 160ms ease;
+}
+
+.contact-info a:hover {
+  color: #fff;
+}
+
+/* Project cards */
+.projects-container {
+  align-items: stretch;
+  justify-content: flex-start;
+  gap: 16px;
+  padding: 4px;
+}
+
+.project-card {
+  width: min(200px, 100%);
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.065);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 13px;
+  text-align: left;
+  box-shadow: 0 5px 18px rgba(0, 0, 0, 0.12);
+  transition: transform 200ms ease, background-color 200ms ease,
+    border-color 200ms ease, box-shadow 200ms ease;
+}
+
+.project-card:hover {
+  transform: translateY(-4px);
+  background: rgba(255, 255, 255, 0.105);
+  border-color: rgba(142, 197, 255, 0.42);
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.24);
+}
+
+.project-card img {
+  display: block;
+  width: 100%;
+  height: 112px;
+  object-fit: cover;
+  border-radius: 9px;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.project-card a {
+  color: #f4f8ff;
+  text-decoration: none;
+}
+
+.project-card h4 {
+  margin: 12px 0 5px;
+  color: #f4f8ff;
+  font-size: 13px;
+  font-weight: 650;
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+}
+
+.project-card a:hover h4 {
+  color: var(--portfolio-accent);
+}
+
+.project-card p {
+  color: var(--portfolio-muted);
+  font-size: 12px;
+  line-height: 1.55;
+}
+
+/* Playlist cards: retain current behavior, improve presentation */
+#playlistContainer {
+  gap: 16px;
+  padding: 18px;
+}
+
+.playlist-card {
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 12px;
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.2);
+}
+
+.playlist-card button {
+  border-radius: 7px;
+  font-weight: 600;
+  transition: filter 160ms ease, transform 160ms ease;
+}
+
+.playlist-card button:hover {
+  filter: brightness(1.12);
+  transform: translateY(-1px);
+}
+
+/* Preloader polish */
+#preloader {
+  background: #0c1118;
+}
+
+.loader-logo {
+  filter: drop-shadow(0 0 18px rgba(142, 197, 255, 0.42));
+}
+
+.logo-wrapper::before {
+  background: rgba(84, 156, 255, 0.42);
+}
+
+/* Existing animated home background toned down, not replaced */
+#homeWindow {
+  background: linear-gradient(
+    145deg,
+    rgba(27, 36, 50, 0.96),
+    rgba(20, 25, 34, 0.96)
+  );
+  background-size: auto;
+  animation: portfolioWindowIn 220ms ease-out both;
+}
+
+@keyframes portfolioWindowIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -48%) scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+/* Responsive refinements */
+@media (max-width: 768px) {
+  .container {
+    height: 60px;
+    padding: 0 10px;
+    gap: 8px;
+  }
+
+  .container nav {
+    gap: 8px;
+  }
+
+  .taskbar {
+    gap: 5px;
+  }
+
+  .taskbar .app-icon {
+    width: 32px;
+    height: 32px;
+    padding: 4px;
+  }
+
+  .weather-box {
+    font-size: 11px;
+    max-width: 70px;
+    text-align: center;
+  }
+
+  .clock-box {
+    min-width: 70px;
+    font-size: 11px;
+  }
+
+  #date {
+    font-size: 10px;
+  }
+
+  .window {
+    width: 95vw;
+    max-width: 95vw;
+    max-height: calc(100dvh - 16px);
+    border-radius: 13px;
+  }
+
+  .window-header {
+    padding: 12px 14px;
+  }
+
+  .window-content {
+    padding: 14px;
+  }
+
+  #homeWindow {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 95vw;
+    max-width: 95vw;
+    max-height: calc(100dvh - 76px);
+    border-radius: 13px;
+  }
+
+  .home-content {
+    padding: 22px 16px;
+  }
+
+  .profile-pic {
+    width: 100px;
+    height: 100px;
+  }
+
+  .projects-container {
+    justify-content: center;
+    gap: 12px;
+  }
+
+  .project-card {
+    width: min(100%, 260px);
+  }
+
+  .project-card img {
+    height: 130px;
+  }
+}
+
+@media (max-width: 420px) {
+  .container {
+    padding: 0 6px;
+  }
+
+  .taskbar .app-icon {
+    width: 29px;
+    height: 29px;
+  }
+
+  .weather-box {
+    max-width: 58px;
+    font-size: 10px;
+  }
+
+  .clock-box {
+    min-width: 62px;
+    font-size: 10px;
+  }
+
+  .window-content {
+    padding: 12px;
+  }
+
+  .contact-info li {
+    padding: 9px 10px;
+    font-size: 12px;
+  }
+}
+
+/* Respect users who prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ================================
+   PROFESSIONAL SKILLS WINDOW
+   Windows desktop portfolio style
+================================ */
+
+#skillsWindow {
+  width: min(760px, 92vw);
+  background: rgba(18, 24, 34, 0.94);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+}
+
+.skills-content {
+  padding: 24px;
+}
+
+.skills-intro {
+  margin-bottom: 24px;
+}
+
+.skills-intro h2 {
+  color: #f4f8ff;
+  font-size: 25px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.skills-intro p {
+  color: rgba(238, 242, 248, 0.7);
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 15px;
+}
+
+.skill-card {
+  padding: 18px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.055);
+  border: 1px solid rgba(255, 255, 255, 0.11);
+  transition:
+    transform 180ms ease,
+    background 180ms ease,
+    border-color 180ms ease;
+}
+
+.skill-card:hover {
+  transform: translateY(-3px);
+  background: rgba(255, 255, 255, 0.09);
+  border-color: rgba(142, 197, 255, 0.4);
+}
+
+.skill-card h3 {
+  color: #dcecff;
+  font-size: 14px;
+  font-weight: 650;
+  margin-bottom: 14px;
+}
+
+.skill-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.skill-tags span {
+  padding: 6px 10px;
+  border-radius: 7px;
+  background: rgba(142, 197, 255, 0.09);
+  border: 1px solid rgba(142, 197, 255, 0.16);
+  color: #e5f1ff;
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+/* Mobile responsive */
+@media (max-width: 600px) {
+  #skillsWindow {
+    width: 95vw;
+    max-width: 95vw;
+  }
+
+  .skills-content {
+    padding: 16px;
+  }
+
+  .skills-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .skills-intro h2 {
+    font-size: 22px;
+  }
+
+  .skill-card {
+    padding: 15px;
+  }
+}
+/* EDUCATION WINDOW */
+
+#educationWindow {
+  width: min(720px, 92vw);
+}
+
+.education-content {
+  padding: 24px;
+}
+
+.education-intro {
+  margin-bottom: 24px;
+}
+
+.education-intro h2 {
+  color: #f4f8ff;
+  font-size: 25px;
+  margin-bottom: 8px;
+}
+
+.education-intro p {
+  color: rgba(238, 242, 248, 0.7);
+  font-size: 13px;
+}
+
+.education-card {
+  padding: 20px;
+  margin-bottom: 16px;
+
+  background: rgba(255, 255, 255, 0.055);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 14px;
+
+  transition: 0.2s ease;
+}
+
+.education-card:hover {
+  transform: translateY(-3px);
+  background: rgba(255, 255, 255, 0.09);
+}
+
+.education-year {
+  display: inline-block;
+  color: #9ecbff;
+  font-size: 12px;
+  margin-bottom: 12px;
+}
+
+.education-card h3 {
+  color: #f4f8ff;
+  font-size: 17px;
+  margin-bottom: 8px;
+}
+
+.education-card p {
+  color: #dce6f3;
+  font-size: 13px;
+  margin-bottom: 7px;
+}
+
+.education-detail {
+  opacity: 0.7;
+}
+
+.education-score {
+  display: inline-block;
+  margin-top: 10px;
+  padding: 7px 11px;
+
+  background: rgba(142, 197, 255, 0.1);
+  border-radius: 8px;
+
+  color: #b8dcff;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+@media (max-width: 600px) {
+  #educationWindow {
+    width: 95vw;
+    max-width: 95vw;
+  }
+
+  .education-content {
+    padding: 16px;
+  }
+
+  .education-card {
+    padding: 16px;
+  }
+}
+
+
+/* Developer Terminal */
+
+#terminalWindow {
+  width: min(750px, 92vw);
+  background: #0c0c0c;
+  border: 1px solid #333;
+  font-family: Consolas, "Courier New", monospace;
+}
+
+.terminal-body {
+  background: #0c0c0c;
+  color: #cccccc;
+  padding: 20px;
+  height: 400px;
+  overflow-y: auto;
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+#terminalOutput p {
+  margin: 4px 0;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+#terminalOutput span {
+  color: #4ade80;
+}
+
+.terminal-input-line {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.terminal-input-line > span {
+  color: #4ade80;
+  white-space: nowrap;
+}
+
+#terminalInput {
+  flex: 1;
+  min-width: 0;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: #ffffff;
+  font: inherit;
+  caret-color: #4ade80;
+}
+
+@media (max-width: 600px) {
+  #terminalWindow {
+    width: 95vw;
+    max-width: 95vw;
+  }
+
+  .terminal-body {
+    height: 65vh;
+    padding: 14px;
+    font-size: 12px;
+  }
+}
+
+/* PERSONALIZATION SETTINGS */
+
+#settingsWindow {
+  width: min(700px, 92vw);
+}
+
+.settings-content {
+  padding: 24px;
+}
+
+.settings-intro {
+  margin-bottom: 24px;
+}
+
+.settings-intro h2 {
+  color: var(--accent-color, #60a5fa);
+  font-size: 25px;
+  margin-bottom: 8px;
+}
+
+.settings-intro p {
+  color: #999;
+  font-size: 13px;
+}
+
+.settings-card {
+  padding: 18px;
+  margin-bottom: 15px;
+
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 14px;
+}
+
+.settings-card h3 {
+  color: var(--accent-color, #60a5fa);
+  font-size: 14px;
+  margin-bottom: 15px;
+}
+
+.settings-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.settings-options button {
+  padding: 10px 15px;
+
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 8px;
+
+  color: inherit;
+  font-size: 12px;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.settings-options button:hover {
+  background: var(--accent-color, #60a5fa);
+  color: #fff;
+}
+
+.accent-options {
+  display: flex;
+  gap: 12px;
+}
+
+.accent-btn {
+  width: 35px;
+  height: 35px;
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  border-radius: 50%;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.accent-btn:hover {
+  transform: scale(1.15);
+}
+
+@media (max-width: 600px) {
+  #settingsWindow {
+    width: 95vw;
+    max-width: 95vw;
+  }
+
+  .settings-content {
+    padding: 16px;
+  }
+
+  .settings-card {
+    padding: 15px;
+  }
+}
+
+/* Wallpaper Upload */
+
+.wallpaper-upload-btn {
+  display: inline-block;
+  padding: 10px 15px;
+  margin-top: 12px;
+
+  background: var(--accent-color, #60a5fa);
+  color: white;
+
+  border-radius: 8px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.wallpaper-upload-btn:hover {
+  opacity: 0.85;
+}
+
+#settingsWindow button {
+  cursor: pointer;
+}
+
+
+
+
+/* ===== Premium Desktop Icon Hover ===== */
+
+.app a,
+.app > img {
+  position: relative;
+}
+
+/* Icon hover animation */
+.app .app-icon {
+  transition:
+    transform 250ms ease,
+    filter 250ms ease,
+    background 250ms ease;
+}
+
+.app .app-icon:hover {
+  transform: translateY(-5px) scale(1.08);
+  filter: drop-shadow(0 5px 12px rgba(142, 197, 255, 0.35));
+}
+
+/* Custom tooltip */
+.app a img[title] {
+  position: relative;
+}
+
+.app a img[title]:hover {
+  filter: drop-shadow(0 0 8px rgba(142, 197, 255, 0.45));
+}
+
+/* Keyboard accessibility */
+.app a:focus-visible {
+  outline: 2px solid #8ec5ff;
+  outline-offset: 4px;
+  border-radius: 12px;
+}
+
+/* ===== Glass Tooltip ===== */
+
+.app a {
+  position: relative;
+}
+
+.app a img[data-tooltip] {
+  cursor: pointer;
+}
+
+.app a img[data-tooltip]::after {
+  content: attr(data-tooltip);
+}
+
+.app a:hover::after {
+  content: attr(data-tooltip);
+  position: absolute;
+
+  left: 50%;
+  top: calc(100% + 12px);
+
+  transform: translateX(-50%);
+  padding: 8px 14px;
+
+  color: #f7f9fc;
+  background: rgba(20, 24, 32, 0.88);
+
+  border: 1px solid rgba(142, 197, 255, 0.35);
+  border-radius: 9px;
+
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+
+  z-index: 9999;
+  pointer-events: none;
+}
+
+/* Image Hover Effect */
+
+.app .icons {
+    cursor: pointer;
+    transition: transform 0.25s ease,
+                filter 0.25s ease;
+}
+
+.app .icons:hover {
+    transform: translateY(-5px) scale(1.08);
+    filter: drop-shadow(0 0 8px rgba(142, 197, 255, 0.6));
+}
+
+
+
+
+
+/* ===== Windows 11 Image Tooltip ===== */
+
+.portfolio-tooltip {
+    position: fixed;
+    z-index: 999999;
+
+    padding: 8px 16px;
+
+    color: #f7f9fc;
+    background: rgba(25, 30, 40, 0.88);
+
+    border: 1px solid rgba(142, 197, 255, 0.4);
+    border-radius: 10px;
+
+    font-size: 12px;
+    font-weight: 600;
+    white-space: nowrap;
+
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.35);
+
+    opacity: 0;
+    transform: translate(-50%, 5px);
+
+    transition: opacity 180ms ease,
+                transform 180ms ease;
+
+    pointer-events: none;
+}
+
+.portfolio-tooltip.show {
+    opacity: 1;
+    transform: translate(-50%, 0);
+}
+
+
+
+/* ===== Desktop Context Menu ===== */
+
+.desktop-context-menu {
+    position: fixed;
+    display: none;
+
+    min-width: 205px;
+    padding: 6px;
+
+    background: rgba(25, 30, 40, 0.92);
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    border-radius: 12px;
+
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+
+    z-index: 99999;
+}
+
+.desktop-context-menu.show {
+    display: flex;
+    flex-direction: column;
+}
+
+.desktop-context-menu button {
+    padding: 10px 12px;
+
+    background: transparent;
+    border: none;
+    border-radius: 7px;
+
+    color: #f7f9fc;
+    text-align: left;
+    font-size: 13px;
+
+    cursor: pointer;
+    transition: background 160ms ease;
+}
+
+.desktop-context-menu button:hover {
+    background: rgba(142, 197, 255, 0.18);
+}
+
+.context-divider {
+    height: 1px;
+    margin: 5px 4px;
+    background: rgba(255, 255, 255, 0.12);
+}
+
+
+/* ===== Floating Desktop Widget ===== */
+
+.desktop-widget {
+    position: fixed;
+    top: 90px;
+    right: 25px;
+
+    width: 230px;
+    padding: 16px;
+
+    display: none;
+
+    color: #f7f9fc;
+    background: rgba(20, 25, 35, 0.78);
+
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    border-radius: 18px;
+
+    backdrop-filter: blur(22px);
+    -webkit-backdrop-filter: blur(22px);
+
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+
+    z-index: 9000;
+}
+
+.desktop-widget.show {
+    display: block;
+    animation: widgetAppear 220ms ease;
+}
+
+@keyframes widgetAppear {
+    from {
+        opacity: 0;
+        transform: translateY(-8px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.widget-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.widget-header button {
+    color: white;
+    background: transparent;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.widget-time {
+    margin-top: 18px;
+    font-size: 34px;
+    font-weight: 700;
+    letter-spacing: -1px;
+}
+
+.widget-date {
+    margin-top: 5px;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 12px;
+}
+
+.widget-weather {
+    margin-top: 16px;
+    padding-top: 12px;
+
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+
+    font-size: 12px;
+    color: #d9eaff;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+    .desktop-widget {
+        top: 75px;
+        right: 12px;
+        width: 210px;
+    }
+}
