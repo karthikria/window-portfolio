@@ -146,7 +146,7 @@ function openPlaylist() {
   const playlistId = "PL2TeHhnB0c8jT3P453h97GennHOVQxB8q";
   window.open(`https://www.youtube.com/playlist?list=${playlistId}`, "_blank");
 }
-<<<<<<< HEAD
+
 // Developer Terminal
 
 const terminalInput = document.getElementById("terminalInput");
